@@ -3,24 +3,8 @@ package linq
 // SelectMany projects each element of a collection to a Query, iterates and
 // flattens the resulting collection into one collection.
 func (q Query) SelectMany(selector func(any) Query) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			q.Iterate(func(outerItem any) bool {
-				keepGoing := true
-
-				innerQuery := selector(outerItem)
-				innerQuery.Iterate(func(innerItem any) bool {
-					if !yield(innerItem) {
-						keepGoing = false
-						return false
-					}
-					return true
-				})
-
-				return keepGoing
-			})
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyT is the typed version of SelectMany.
@@ -28,22 +12,7 @@ func (q Query) SelectMany(selector func(any) Query) Query {
 //   - selectorFn is of type "func(TSource)Query"
 //
 // NOTE: SelectMany has better performance than SelectManyT.
-func (q Query) SelectManyT(selectorFn any) Query {
-
-	selectManyGenericFunc, err := newGenericFunc(
-		"SelectManyT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(Query))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(inner any) Query {
-		return selectManyGenericFunc.Call(inner).(Query)
-	}
-	return q.SelectMany(selectorFunc)
-
-}
+func (q Query) SelectManyT(selectorFn any) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // SelectManyIndexed projects each element of a collection to a Query, iterates
 // and flattens the resulting collection into one collection.
@@ -55,26 +24,8 @@ func (q Query) SelectManyT(selectorFn any) Query {
 // of one or more elements. The second argument to selector represents the
 // element to process.
 func (q Query) SelectManyIndexed(selector func(index int, outer any) Query) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			index := 0
-			q.Iterate(func(outerItem any) bool {
-				keepGoing := true
-
-				innerQuery := selector(index, outerItem)
-				index++
-				innerQuery.Iterate(func(innerItem any) bool {
-					if !yield(innerItem) {
-						keepGoing = false
-						return false
-					}
-					return true
-				})
-
-				return keepGoing
-			})
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyIndexedT is the typed version of SelectManyIndexed.
@@ -83,20 +34,8 @@ func (q Query) SelectManyIndexed(selector func(index int, outer any) Query) Quer
 //
 // NOTE: SelectManyIndexed has better performance than SelectManyIndexedT.
 func (q Query) SelectManyIndexedT(selectorFn any) Query {
-
-	selectManyIndexedGenericFunc, err := newGenericFunc(
-		"SelectManyIndexedT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(int), new(genericType)), newElemTypeSlice(new(Query))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(index int, inner any) Query {
-		return selectManyIndexedGenericFunc.Call(index, inner).(Query)
-	}
-
-	return q.SelectManyIndexed(selectorFunc)
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyBy projects each element of a collection to a Query, iterates and
@@ -106,26 +45,8 @@ func (q Query) SelectManyBy(
 	selector func(outer any) Query,
 	resultSelector func(inner, outer any) any,
 ) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			q.Iterate(func(outerItem any) bool {
-				keepGoing := true
-				innerQuery := selector(outerItem)
-
-				innerQuery.Iterate(func(innerItem any) bool {
-					result := resultSelector(innerItem, outerItem)
-
-					if !yield(result) {
-						keepGoing = false
-						return false
-					}
-					return true
-				})
-
-				return keepGoing
-			})
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyByT is the typed version of SelectManyBy.
@@ -136,32 +57,8 @@ func (q Query) SelectManyBy(
 // NOTE: SelectManyBy has better performance than SelectManyByT.
 func (q Query) SelectManyByT(selectorFn any,
 	resultSelectorFn any) Query {
-
-	selectorGenericFunc, err := newGenericFunc(
-		"SelectManyByT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(Query))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(outer any) Query {
-		return selectorGenericFunc.Call(outer).(Query)
-	}
-
-	resultSelectorGenericFunc, err := newGenericFunc(
-		"SelectManyByT", "resultSelectorFn", resultSelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	resultSelectorFunc := func(outer any, item any) any {
-		return resultSelectorGenericFunc.Call(outer, item)
-	}
-
-	return q.SelectManyBy(selectorFunc, resultSelectorFunc)
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyByIndexed projects each element of a collection to a Query,
@@ -172,28 +69,8 @@ func (q Query) SelectManyByIndexed(
 	selector func(index int, outer any) Query,
 	resultSelector func(inner, outer any) any,
 ) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			index := 0
-			q.Iterate(func(outerItem any) bool {
-				innerQuery := selector(index, outerItem)
-				index++
-
-				keepGoing := true
-				innerQuery.Iterate(func(innerItem any) bool {
-					result := resultSelector(innerItem, outerItem)
-
-					if !yield(result) {
-						keepGoing = false
-						return false
-					}
-					return true
-				})
-
-				return keepGoing
-			})
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectManyByIndexedT is the typed version of SelectManyByIndexed.
@@ -205,29 +82,6 @@ func (q Query) SelectManyByIndexed(
 // SelectManyByIndexedT.
 func (q Query) SelectManyByIndexedT(selectorFn any,
 	resultSelectorFn any) Query {
-	selectorGenericFunc, err := newGenericFunc(
-		"SelectManyByIndexedT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(int), new(genericType)), newElemTypeSlice(new(Query))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(index int, outer any) Query {
-		return selectorGenericFunc.Call(index, outer).(Query)
-	}
-
-	resultSelectorGenericFunc, err := newGenericFunc(
-		"SelectManyByIndexedT", "resultSelectorFn", resultSelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	resultSelectorFunc := func(outer any, item any) any {
-		return resultSelectorGenericFunc.Call(outer, item)
-	}
-
-	return q.SelectManyByIndexed(selectorFunc, resultSelectorFunc)
+	_ = "STUB: not implemented"
+	return *new(Query)
 }

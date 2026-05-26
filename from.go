@@ -2,9 +2,7 @@ package linq
 
 import (
 	"context"
-	"fmt"
 	"iter"
-	"reflect"
 )
 
 // Query is the type returned from query functions. It can be iterated manually
@@ -27,89 +25,35 @@ type Iterable interface {
 }
 
 // FromSlice initializes a linq query with a passed slice.
-func FromSlice[S ~[]T, T any](source S) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for _, item := range source {
-				if !yield(item) {
-					return
-				}
-			}
-		},
-	}
-}
+func FromSlice[S ~[]T, T any](source S) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // FromMap initializes a linq query with a passed map.
 func FromMap[M ~map[K]V, K comparable, V any](source M) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for k, v := range source {
-				if !yield(KeyValue{
-					Key:   k,
-					Value: v,
-				}) {
-					return
-				}
-			}
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // FromChannel initializes a linq query with a passed channel, linq iterates over
 // the channel until it is closed.
-func FromChannel[T any](source <-chan T) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for item := range source {
-				if !yield(item) {
-					return
-				}
-			}
-		},
-	}
-}
+func FromChannel[T any](source <-chan T) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // FromChannelWithContext initializes a linq query with a passed channel
 // and stops iterating either when the channel is closed or when the context is canceled.
 func FromChannelWithContext[T any](ctx context.Context, source <-chan T) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for {
-				select {
-				case <-ctx.Done():
-					// Context canceled or deadline exceeded
-					return
-				case item, ok := <-source:
-					if !ok || !yield(item) {
-						// Channel closed or Consumer stopped early
-						return
-					}
-				}
-			}
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
+// Context canceled or deadline exceeded
+
+// Channel closed or Consumer stopped early
+
 // FromString initializes a query from a string, iterating over its runes.
-func FromString[S ~string](source S) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for _, ch := range string(source) {
-				if !yield(ch) {
-					return
-				}
-			}
-		},
-	}
-}
+func FromString[S ~string](source S) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // FromIterable initializes a linq query with a custom collection passed. This
 // collection has to implement Iterable.
-func FromIterable(source Iterable) Query {
-	return Query{
-		Iterate: source.Iterate(),
-	}
-}
+func FromIterable(source Iterable) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // From initializes a Query from a supported data source by inspecting its
 // type at runtime. It panics if the source type is not supported.
@@ -117,86 +61,10 @@ func FromIterable(source Iterable) Query {
 // NOTE: It is recommended to call the specific From* function directly
 // (e.g., FromSlice, FromMap, etc.). This unified function is less efficient
 // because it relies on runtime reflection.
-func From(source any) Query {
-	if source == nil {
-		return Query{
-			Iterate: func(yield func(any) bool) {},
-		}
-	}
-
-	switch s := source.(type) {
-	case string:
-		return FromString(s)
-	case Iterable:
-		return FromIterable(s)
-	}
-
-	sourceValue := reflect.ValueOf(source)
-	switch sourceValue.Kind() {
-	case reflect.Slice, reflect.Array:
-		return Query{
-			Iterate: func(yield func(any) bool) {
-				length := sourceValue.Len()
-				for i := 0; i < length; i++ {
-					if !yield(sourceValue.Index(i).Interface()) {
-						return
-					}
-				}
-			},
-		}
-
-	case reflect.Map:
-		return Query{
-			Iterate: func(yield func(any) bool) {
-				for _, key := range sourceValue.MapKeys() {
-					value := sourceValue.MapIndex(key)
-					if !yield(KeyValue{Key: key.Interface(), Value: value.Interface()}) {
-						return
-					}
-				}
-			},
-		}
-
-	case reflect.Chan:
-		return Query{
-			Iterate: func(yield func(any) bool) {
-				for {
-					value, ok := sourceValue.Recv()
-					if !ok || !yield(value.Interface()) {
-						return
-					}
-				}
-			},
-		}
-
-	default:
-		panic(fmt.Sprintf("unsupported type for From: %T", source))
-	}
-}
+func From(source any) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // Range generates a sequence of integral numbers within a specified range.
-func Range(start, count int) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			end := start + count
-			for i := start; i < end; i++ {
-				if !yield(i) {
-					return
-				}
-			}
-		},
-	}
-}
+func Range(start, count int) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // Repeat generates a sequence that contains one repeated value.
-func Repeat[T any](value T, count int) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			for i := 0; i < count; i++ {
-				if !yield(value) {
-					return
-				}
-			}
-		},
-	}
-}
+func Repeat[T any](value T, count int) Query { _ = "STUB: not implemented"; return *new(Query) }

@@ -1,7 +1,5 @@
 package linq
 
-import "iter"
-
 // Aggregate applies an accumulator function over a sequence.
 //
 // Aggregate method makes it simple to perform a calculation over a sequence of
@@ -13,19 +11,8 @@ import "iter"
 //
 // Aggregate returns the final result of f().
 func (q Query) Aggregate(f func(accumulator, item any) any) any {
-	next, stop := iter.Pull(q.Iterate)
-	defer stop()
-
-	result, ok := next()
-	if !ok {
-		return nil
-	}
-
-	for current, ok := next(); ok; current, ok = next() {
-		result = f(result, current)
-	}
-
-	return result
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // AggregateT is the typed version of Aggregate.
@@ -33,21 +20,7 @@ func (q Query) Aggregate(f func(accumulator, item any) any) any {
 //   - f is of type: func(TSource, TSource) TSource
 //
 // NOTE: Aggregate has better performance than AggregateT.
-func (q Query) AggregateT(f any) any {
-	fGenericFunc, err := newGenericFunc(
-		"AggregateT", "f", f,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	fFunc := func(result any, current any) any {
-		return fGenericFunc.Call(result, current)
-	}
-
-	return q.Aggregate(fFunc)
-}
+func (q Query) AggregateT(f any) any { _ = "STUB: not implemented"; return *new(any) }
 
 // AggregateWithSeed applies an accumulator function over a sequence. The
 // specified seed value is used as the initial accumulator value.
@@ -62,13 +35,8 @@ func (q Query) AggregateT(f any) any {
 // Aggregate returns the final result of f().
 func (q Query) AggregateWithSeed(seed any,
 	f func(accumulator, item any) any) any {
-	result := seed
-
-	for current := range q.Iterate {
-		result = f(result, current)
-	}
-
-	return result
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // AggregateWithSeedT is the typed version of AggregateWithSeed.
@@ -79,19 +47,8 @@ func (q Query) AggregateWithSeed(seed any,
 // AggregateWithSeedT.
 func (q Query) AggregateWithSeedT(seed any,
 	f any) any {
-	fGenericFunc, err := newGenericFunc(
-		"AggregateWithSeed", "f", f,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	fFunc := func(result any, current any) any {
-		return fGenericFunc.Call(result, current)
-	}
-
-	return q.AggregateWithSeed(seed, fFunc)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // AggregateWithSeedBy applies an accumulator function over a sequence. The
@@ -110,14 +67,8 @@ func (q Query) AggregateWithSeedT(seed any,
 func (q Query) AggregateWithSeedBy(seed any,
 	f func(accumulator, item any) any,
 	resultSelector func(any) any) any {
-
-	result := seed
-
-	for current := range q.Iterate {
-		result = f(result, current)
-	}
-
-	return resultSelector(result)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // AggregateWithSeedByT is the typed version of AggregateWithSeedBy.
@@ -130,29 +81,6 @@ func (q Query) AggregateWithSeedBy(seed any,
 func (q Query) AggregateWithSeedByT(seed any,
 	f any,
 	resultSelectorFn any) any {
-	fGenericFunc, err := newGenericFunc(
-		"AggregateWithSeedByT", "f", f,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	fFunc := func(result any, current any) any {
-		return fGenericFunc.Call(result, current)
-	}
-
-	resultSelectorGenericFunc, err := newGenericFunc(
-		"AggregateWithSeedByT", "resultSelectorFn", resultSelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	resultSelectorFunc := func(result any) any {
-		return resultSelectorGenericFunc.Call(result)
-	}
-
-	return q.AggregateWithSeedBy(seed, fFunc, resultSelectorFunc)
+	_ = "STUB: not implemented"
+	return *new(any)
 }

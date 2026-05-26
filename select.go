@@ -12,36 +12,13 @@ package linq
 // the SelectMany method instead of Select. Although SelectMany works similarly
 // to Select, it differs in that the transform function returns a collection
 // that is then expanded by SelectMany before it is returned.
-func (q Query) Select(selector func(any) any) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			q.Iterate(func(item any) bool {
-				return yield(selector(item))
-			})
-		},
-	}
-}
+func (q Query) Select(selector func(any) any) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // SelectT is the typed version of Select.
 //   - selectorFn is of type "func(TSource)TResult"
 //
 // NOTE: Select has better performance than SelectT.
-func (q Query) SelectT(selectorFn any) Query {
-
-	selectGenericFunc, err := newGenericFunc(
-		"SelectT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(item any) any {
-		return selectGenericFunc.Call(item)
-	}
-
-	return q.Select(selectorFunc)
-}
+func (q Query) SelectT(selectorFn any) Query { _ = "STUB: not implemented"; return *new(Query) }
 
 // SelectIndexed projects each element of a collection into a new form by
 // incorporating the element's index. Returns a query with the result of
@@ -63,34 +40,12 @@ func (q Query) SelectT(selectorFn any) Query {
 // to Select, it differs in that the transform function returns a collection
 // that is then expanded by SelectMany before it is returned.
 func (q Query) SelectIndexed(selector func(int, any) any) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			index := 0
-			q.Iterate(func(item any) bool {
-				newItem := selector(index, item)
-				index++
-				return yield(newItem)
-			})
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // SelectIndexedT is the typed version of SelectIndexed.
 //   - selectorFn is of type "func(int,TSource)TResult"
 //
 // NOTE: SelectIndexed has better performance than SelectIndexedT.
-func (q Query) SelectIndexedT(selectorFn any) Query {
-	selectGenericFunc, err := newGenericFunc(
-		"SelectIndexedT", "selectorFn", selectorFn,
-		simpleParamValidator(newElemTypeSlice(new(int), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	selectorFunc := func(index int, item any) any {
-		return selectGenericFunc.Call(index, item)
-	}
-
-	return q.SelectIndexed(selectorFunc)
-}
+func (q Query) SelectIndexedT(selectorFn any) Query { _ = "STUB: not implemented"; return *new(Query) }

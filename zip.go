@@ -1,7 +1,5 @@
 package linq
 
-import "iter"
-
 // Zip applies a specified function to the corresponding elements of two
 // collections, producing a collection of the results.
 //
@@ -14,30 +12,8 @@ import "iter"
 // result collection has only three elements.
 func (q Query) Zip(q2 Query,
 	resultSelector func(any, any) any) Query {
-
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			next1, stop1 := iter.Pull(q.Iterate)
-			defer stop1()
-
-			next2, stop2 := iter.Pull(q2.Iterate)
-			defer stop2()
-
-			for {
-				item1, ok1 := next1()
-				item2, ok2 := next2()
-
-				if !ok1 || !ok2 {
-					return
-				}
-
-				result := resultSelector(item1, item2)
-				if !yield(result) {
-					return
-				}
-			}
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // ZipT is the typed version of Zip.
@@ -47,17 +23,6 @@ func (q Query) Zip(q2 Query,
 // NOTE: Zip has better performance than ZipT.
 func (q Query) ZipT(q2 Query,
 	resultSelectorFn any) Query {
-	resultSelectorGenericFunc, err := newGenericFunc(
-		"ZipT", "resultSelectorFn", resultSelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType), new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	resultSelectorFunc := func(item1 any, item2 any) any {
-		return resultSelectorGenericFunc.Call(item1, item2)
-	}
-
-	return q.Zip(q2, resultSelectorFunc)
+	_ = "STUB: not implemented"
+	return *new(Query)
 }

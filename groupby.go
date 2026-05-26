@@ -11,27 +11,8 @@ type Group struct {
 // specified function.
 func (q Query) GroupBy(keySelector func(any) any,
 	elementSelector func(any) any) Query {
-	return Query{
-		Iterate: func(yield func(any) bool) {
-			groups := make(map[any][]any)
-
-			for item := range q.Iterate {
-				key := keySelector(item)
-				element := elementSelector(item)
-				groups[key] = append(groups[key], element)
-			}
-
-			for key, group := range groups {
-				group := Group{
-					Key:   key,
-					Group: group,
-				}
-				if !yield(group) {
-					return
-				}
-			}
-		},
-	}
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
 
 // GroupByT is the typed version of GroupBy.
@@ -42,30 +23,6 @@ func (q Query) GroupBy(keySelector func(any) any,
 // NOTE: GroupBy has better performance than GroupByT.
 func (q Query) GroupByT(keySelectorFn any,
 	elementSelectorFn any) Query {
-	keySelectorGenericFunc, err := newGenericFunc(
-		"GroupByT", "keySelectorFn", keySelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	keySelectorFunc := func(item any) any {
-		return keySelectorGenericFunc.Call(item)
-	}
-
-	elementSelectorGenericFunc, err := newGenericFunc(
-		"GroupByT", "elementSelectorFn", elementSelectorFn,
-		simpleParamValidator(newElemTypeSlice(new(genericType)), newElemTypeSlice(new(genericType))),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	elementSelectorFunc := func(item any) any {
-		return elementSelectorGenericFunc.Call(item)
-
-	}
-
-	return q.GroupBy(keySelectorFunc, elementSelectorFunc)
+	_ = "STUB: not implemented"
+	return *new(Query)
 }
